@@ -19,18 +19,18 @@ function App() {
             if(customerIdElement===null) return;
             const val = (customerIdElement as HTMLInputElement).value;
             sseConnect.connect(val)
-            sseConnect.addEventListener("client", (event) => {
+            sseConnect.addEventListener("customer", (event) => {
                 if ("data" in event && event.data!==null) {
                     const container = document.getElementById("container");
                     container!.innerHTML += `<div>${event.data}</div>`;
                 }
             });
 
-            sseConnect.addEventListener("store", (event) => {
+            sseConnect.addEventListener("market", (event) => {
                 if ("data" in event && event.data!==null && typeof event.data == "string") {
                     const result : ICustomer[] = JSON.parse(event.data)
                     const customers = result.sort((a, b) => a.createdAt - b.createdAt);
-                    const index = customers.findIndex(customer => customer.id === 2);
+                    const index = customers.findIndex(customer => customer.id === (Number)(val));
                     console.log(`내 순서는 ${index}번째 입니다`)
                 }
             })
