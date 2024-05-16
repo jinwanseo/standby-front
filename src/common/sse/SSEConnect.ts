@@ -10,7 +10,6 @@ class SSEConnect {
     }
 
     public close() {
-        console.log("cloes!")
         this.eventSource && this.eventSource.close();
         this.eventSource = null;
     }
@@ -22,11 +21,12 @@ class SSEConnect {
             `http://localhost:8080/sse/${customerId}`, {
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJST0xFX0FETUlOIiwiaWF0IjoxNzE1NTIxNzEwLCJleHAiOjE3MTU2MDgxMTB9.XxlegQYHwcxbLltqfaG3JdihHCbrqgogmpK1rl_g_HE`
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJST0xFX0FETUlOIiwiaWF0IjoxNzE1NjM5OTA2LCJleHAiOjE3MTU3MjYzMDZ9.pUKq5rvWhwZ4WaGsm_V8SRsKuhv6GbKbwUMqnom55oc`
                 },
                 heartbeatTimeout: 1000 * 60 * 60 * 24 * 365 * 1000,
             }
         );
+
 
 
         this.eventSource.onopen = () => {
@@ -36,7 +36,8 @@ class SSEConnect {
         this.eventSource.onerror = (event) => {
             this.eventSource && this.eventSource.close();
             if (event.target.readyState === EventSource.CLOSED) {
-                setTimeout(this.connect, 1000);
+                console.log(customerId)
+                setTimeout(() => this.connect(customerId), 1000);
             }
         };
     }
